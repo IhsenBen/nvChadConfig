@@ -5,7 +5,7 @@ local capabilities = require("plugins.configs.lspconfig").capabilities
 local lspconfig = require "lspconfig"
 local util = require "lspconfig/util"
 
--- Golang fm stufff
+-- golang fm stufff
 lspconfig.gopls.setup {
   on_attach = on_attach,
   capabilities = capabilities,
@@ -14,8 +14,8 @@ lspconfig.gopls.setup {
   root_dir = util.root_pattern("go.work", "go.mod", ".git"),
   settings = {
     gopls = {
-      completeUnimported = true,
-      usePlaceholders = true,
+      completeunimported = true,
+      useplaceholders = true,
       analyses = {
         unusedparans = true,
       },
@@ -30,13 +30,13 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   }
 end
--- ------------------ Activate giving your Needs, Not All tested ------------
+-- ------------------ activate giving your needs, not all tested ------------
 -- setup lsp for json files
 -- lspconfig.jsonls.setup {
 --   on_attach = on_attach,
 --   capabilities = capabilities,
 --   commands = {
---     Format = {
+--     format = {
 --       function()
 --         vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line("$"), 0 })
 --       end,
@@ -63,14 +63,14 @@ end
 --   capabilities = capabilities,
 --   cmd = { "lua-language-server" },
 --   settings = {
---     Lua = {
+--     lua = {
 --       diagnostics = {
 --         globals = { "vim" },
 --       },
 --       workspace = {
 --         library = {
---           [vim.fn.expand "$VIMRUNTIME/lua"] = true,
---           [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+--           [vim.fn.expand "$vimruntime/lua"] = true,
+--           [vim.fn.expand "$vimruntime/lua/vim/lsp"] = true,
 --         },
 --       },
 --     },

@@ -37,7 +37,7 @@ local plugins = {
     opts = overrides.nvimtree,
   },
 
-  -- Install a plugin
+  -- Extra plugins
   {
     "max397574/better-escape.nvim",
     event = "InsertEnter",
@@ -54,13 +54,49 @@ local plugins = {
     end,
   },
 
+  {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+  },
+
+  -- Better Diagnostics
+  {
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    event = "LspAttach",
+    config = function()
+      require("lsp_lines").setup()
+    end,
+  },
+
+  -- Handy for lsp actions
+  {
+
+    "weilbith/nvim-code-action-menu",
+    cmd = "CodeActionMenu",
+    init = function()
+      vim.g.code_action_menu_show_details = true
+      vim.g.code_action_menu_show_diff = true
+      vim.g.code_action_menu_show_action_kind = true
+    end,
+    config = function()
+      dofile(vim.g.base46_cache .. "git")
+    end,
+  },
+
+  -- Git Stuff
+  {
+    "kdheepak/lazygit.nvim",
+    cmd = "LazyGit",
+  },
+
   -- Copilote stuff :
   {
     "github/copilot.vim",
     cmd = "Copilot",
   },
 
-  -- To make a plugin not be loaded
   {
     "NvChad/nvim-colorizer.lua",
     enabled = false,
