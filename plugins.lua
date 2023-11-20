@@ -3,7 +3,8 @@ local overrides = require "custom.configs.overrides"
 ---@type NvPluginSpec[]
 local plugins = {
 
-  -- lsp and null-ls stuff (formatting and linting)
+  -- Override plugin definition options
+
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -18,10 +19,10 @@ local plugins = {
     config = function()
       require "plugins.configs.lspconfig"
       require "custom.configs.lspconfig"
-    end,
+    end, -- Override to setup mason-lspconfig
   },
 
-  -- lsp servers pkg? manager
+  -- override plugin configs
   {
     "williamboman/mason.nvim",
     opts = overrides.mason,
@@ -37,7 +38,14 @@ local plugins = {
     opts = overrides.nvimtree,
   },
 
-  -- Extra plugins
+  {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+  },
+
+  -- Install a plugin
   {
     "max397574/better-escape.nvim",
     event = "InsertEnter",
@@ -47,22 +55,6 @@ local plugins = {
   },
 
   {
-    "jose-elias-alvarez/null-ls.nvim",
-    ft = "go",
-    opts = function()
-      require "custom.configs.null-ls"
-    end,
-  },
-
-  {
-    "windwp/nvim-ts-autotag",
-    config = function()
-      require("nvim-ts-autotag").setup()
-    end,
-  },
-
-  -- Better Diagnostics
-  {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     event = "LspAttach",
     config = function()
@@ -70,33 +62,30 @@ local plugins = {
     end,
   },
 
-  -- Handy for lsp actions
-  {
-
-    "weilbith/nvim-code-action-menu",
-    cmd = "CodeActionMenu",
-    init = function()
-      vim.g.code_action_menu_show_details = true
-      vim.g.code_action_menu_show_diff = true
-      vim.g.code_action_menu_show_action_kind = true
-    end,
-    config = function()
-      dofile(vim.g.base46_cache .. "git")
-    end,
-  },
-
-  -- Git Stuff
   {
     "kdheepak/lazygit.nvim",
     cmd = "LazyGit",
   },
 
-  -- Copilote stuff :
   {
-    "github/copilot.vim",
+    "zbirenbaum/copilot.lua",
     cmd = "Copilot",
+    build = ":Copilot auth",
+    opts = {
+      suggestion = {
+        enabled = true,
+        auto_trigger = true,
+        keymap = { accept = "<Tab>" },
+      },
+      panel = { enabled = false },
+      filetypes = {
+        markdown = true,
+        help = true,
+      },
+    },
   },
 
+  -- To make a plugin not be loaded
   {
     "NvChad/nvim-colorizer.lua",
     enabled = false,

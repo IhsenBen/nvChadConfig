@@ -1,9 +1,26 @@
 local on_attach = require("plugins.configs.lspconfig").on_attach
 local capabilities = require("plugins.configs.lspconfig").capabilities
 
--- faulty lint error don't fix
 local lspconfig = require "lspconfig"
 local util = require "lspconfig/util"
+
+-- if you just want default config for the servers then put them in a table
+local servers = { "html", "cssls", "clangd" }
+
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+end
+
+local function organize_imports()
+  local params = {
+    command = "_typescript.organizeImports",
+    arguments = { vim.api.nvim_buf_get_name(0) },
+  }
+  vim.lsp.buf.execute_command(params)
+end
 
 -- golang fm stufff
 lspconfig.gopls.setup {
@@ -22,14 +39,23 @@ lspconfig.gopls.setup {
     },
   },
 }
--- setup lsp for css html ts and tsx files
-local servers = { "cssls", "html", "tsserver", "pyright" }
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-end
+
+lspconfig.tsserver.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  init_options = {
+    preferences = {
+      disableSuggestions = true,
+    },
+  },
+  commands = {
+    OrganizeImports = {
+      organize_imports,
+      description = "Organize Imports",
+    },
+  },
+}
+
 -- ------------------ activate giving your needs, not all tested ------------
 -- setup lsp for json files
 -- lspconfig.jsonls.setup {
