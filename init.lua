@@ -1,12 +1,3 @@
--- local autocmd = vim.api.nvim_create_autocmd
-
--- Auto resize panes when resizing nvim window
--- autocmd("VimResized", {
---   pattern = "*",
---   command = "tabdo wincmd =",
--- })
-
--- Autosave stuff:
 local create_cmd = vim.api.nvim_create_user_command
 
 local function clear_cmdarea()
@@ -14,7 +5,7 @@ local function clear_cmdarea()
 		vim.api.nvim_echo({}, false, {})
 	end, 800)
 end
-
+-- autosave stuff runs automatically with copilot on each vim enter:
 local function autosave()
 	vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
 		callback = function()
@@ -35,7 +26,6 @@ local function autosave()
 	})
 end
 
---TODO[]: run it on nvim start
 create_cmd("AsToggle", function()
 	vim.g.autosave = not vim.g.autosave
 
@@ -52,5 +42,5 @@ create_cmd("AsToggle", function()
 	clear_cmdarea()
 end, {})
 
-vim.cmd([[autocmd VimEnter * AsToggle]])
 vim.cmd([[autocmd VimEnter * Copilot auth]])
+vim.cmd([[autocmd VimEnter * AsToggle]])

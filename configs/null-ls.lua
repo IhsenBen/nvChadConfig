@@ -4,10 +4,25 @@ local null_ls = require("null-ls")
 local b = null_ls.builtins
 
 local sources = {
-
+	b.diagnostics.eslint_d.with({
+		diagnostics_format = "[eslint] #{m}\n(#{c})",
+	}),
 	-- webdev stuff
 	b.formatting.deno_fmt, -- choosed deno for ts/js files cuz its very fast!
-	b.formatting.prettier.with({ filetypes = { "html", "markdown", "css" } }), -- so prettier works only on these filetypes
+	b.formatting.prettier.with({
+		filetypes = {
+			"html",
+			"markdown",
+			"css",
+			"javascript",
+			"typescript",
+			"javascriptreact",
+			"typescriptreact",
+			"json",
+			"scss",
+			"less",
+		},
+	}),
 
 	-- Lua
 	b.formatting.stylua,
@@ -24,6 +39,7 @@ local sources = {
 	b.diagnostics.ruff,
 }
 
+-- format on save bs for null-ls
 null_ls.setup({
 	debug = true,
 	sources = sources,
